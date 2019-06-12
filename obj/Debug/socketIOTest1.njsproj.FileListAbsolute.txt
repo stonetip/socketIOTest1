@@ -1,0 +1,3 @@
+T:\code_proj\experimental\socketIOTest1\obj\Debug\socketIOTest1.njsprojAssemblyReference.cache
+T:\code_proj\experimental\socketIOTest1\obj\Debug\socketIOTest1.njsproj.CoreCompileInputs.cache
+T:\code_proj\experimental\socketIOTest1\bin\Microsoft.NodejsTools.WebRole.dll

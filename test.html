@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=1" />
+	<script src="/socket.io/socket.io.js"></script>
+	<link href="styles.css" rel="stylesheet" />
+
+	<title>Test Sockets 1</title>
+</head>
+<body>
+	<h2>socket.io test</h2>
+
+	<!-- input -->
+	<fieldset>
+		<div>
+			<label for="universalMsgText">send to all</label>
+		</div>
+		<input id="universalMsgText" type="text" value="send to everybody, including me" />
+		<input id="universalMsgBtn" type="button" value="send" />
+	</fieldset>
+
+	<fieldset>
+		<div>
+			<label for="everybodyButSenderMsgText">send to all but me</label>
+		</div>
+		<input id="everybodyButSenderMsgText" type="text" value="send to all but me" />
+		<input id="everybodyButSenderMsgBtn" type="button" value="send" />
+	</fieldset>
+
+	<fieldset>
+		<div>
+			<label for="singleUserMsgText">send just from me</label>
+		</div>
+		<input id="singleUserMsgText" type="text" value="send a message just from me" />
+		<input id="singleUserMsgBtn" type="button" value="send" />
+	</fieldset>
+
+	<!-- output -->
+	<div class="notes">
+		<label for="msgCenter">messages</label>
+		<ul id="msgCenter" style="margin: 16px;"></ul>
+	</div>
+
+
+	<script>
+
+		var msgCenter = document.getElementById("msgCenter");
+
+		var socket = io();
+
+		// This sends a one-to-server message. Strictly speaking, the server knows when a client has connected.
+		// This is just a demonstration of socket.emit
+		socket.emit("single client to server", "Hey, I just got loaded!");
+
+
+		/*** Set up a couple test fields/buttons for sending either universal broadcast messages or a single user message ***/
+		const universalMsgBtn = document.getElementById("universalMsgBtn");
+
+		universalMsgBtn.addEventListener("click", function () {
+
+			const msg = document.getElementById("universalMsgText").value;
+
+			socket.emit("universal", msg);
+		});
+
+		const everybodyButSenderMsgBtn = document.getElementById("everybodyButSenderMsgBtn");
+
+		everybodyButSenderMsgBtn.addEventListener("click", function () {
+
+			const msg = document.getElementById("everybodyButSenderMsgText").value;
+
+			socket.emit("everybody else", msg);
+		});
+
+		const singleUserMsgBtn = document.getElementById("singleUserMsgBtn");
+
+		singleUserMsgBtn.addEventListener("click", function () {
+
+			const msg = document.getElementById("singleUserMsgText").value;
+
+			socket.emit("single client to server", msg);
+		});
+
+
+		/*** Message types that the client socket will listen for and action(s) that will ensue. ***/
+
+		// Sent to everybody (but not always including the sender)
+		socket.on("broadcast", function (data) {
+
+			msgCenter.appendChild(formatOutput(data));
+
+		});
+
+		// Intended only for one recipient
+		socket.on("reply from server", function (data) {
+
+			msgCenter.appendChild(formatOutput(data));
+
+		});
+
+
+		// util
+		function formatOutput(input) {
+
+			const outputData = document.createTextNode(JSON.stringify(input));
+
+			const li = document.createElement("li");
+			li.appendChild(outputData);
+
+			return li;
+		}
+
+	</script>
+
+</body>
+</html>

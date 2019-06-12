@@ -1,0 +1,13 @@
+{
+  "name": "socket-iotest1",
+  "version": "0.0.0",
+  "description": "socketIOTest1",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
+  }
+}

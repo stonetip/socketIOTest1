@@ -1,0 +1,43 @@
+﻿@font-face {
+		font-family: 'PT Sans Narrow';
+		src: url('../fonts/ptn57f.woff2') format('woff2'), url('../fonts/ptn57f.woff') format('woff'), url('../fonts/PTN57F.ttf') format('truetype');
+	}
+
+@font-face {
+	font-family: 'PT Sans Narrow';
+	src: url('../fonts/ptn77f.woff2') format('woff2'), url('../fonts/ptn77f.woff') format('woff'), url('../fonts/PTN77F.ttf') format('truetype');
+	font-weight: bold;
+}
+
+
+body {
+	font-family: 'PT Sans Narrow','Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+	font-size: .875em;
+}
+
+input[type=text] {
+	width: 300px;
+}
+
+
+.notes {
+	margin: 16px 0 8px 0;
+	border-radius: 8px;
+	padding: 8px;
+	padding-bottom: 0px;
+	width: calc(100% - 18px);
+	overflow: visible;
+	background-color: rgba(255, 248, 242, 1);
+	border: solid 1px rgba(255, 203, 150, 1);
+}
+
+label {
+	font-weight: bold;
+}
+
+fieldset {
+	margin: 16px 0 8px 0;
+	background-color: rgba(0, 128, 255, 0.03);
+	border: solid 1px rgba(0, 128, 255, 0.25);
+	border-radius: 8px;
+}
