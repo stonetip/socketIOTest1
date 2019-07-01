@@ -18,15 +18,21 @@ function getTimeStamp() {
 }
 
 
+
+
+let users = [];
+
+
+
 // Set up connection and message types
-io.on("connection", function (socket) {
+io.on("connection", (socket) => {
 
 	console.log("a user connected");
 
 	/*** Message types that the client socket will listen for and action(s) that will ensue. ***/
 
 	// one-to-one message client-to-server
-	socket.on("single client to server", function (msg) {
+	socket.on("single client to server", (msg) => {
 
 		console.log(`single client to server: ${msg}`);
 
@@ -37,7 +43,7 @@ io.on("connection", function (socket) {
 	});
 
 	// one-to-many message that will cause the server to broadcast a message to all clients, including the sender
-	socket.on("universal", function (msg) {
+	socket.on("universal", (msg) => {
 
 		console.log(`universal: ${msg}`);
 
@@ -48,7 +54,7 @@ io.on("connection", function (socket) {
 
 
 	// one-to-many message that will cause the server to broadcast a message to all clients, but not the sender
-	socket.on("everybody else", function (msg) {
+	socket.on("everybody else", (msg) => {
 
 		console.log(`everybody else: ${msg}`);
 
@@ -57,12 +63,16 @@ io.on("connection", function (socket) {
 		socket.broadcast.emit("broadcast", { messageToEverybodyElse: msg, time: timestamp });
 	});
 
+
+	// user code
+	//socket.on();
+
 });
 
 
 
 // Demonstrating sending a ping or daemon-style message on a regular basis
-setInterval(function () {
+setInterval( () => {
 
 	const msg = "interval message";
 
@@ -77,7 +87,7 @@ setInterval(function () {
 
 
 // Let 'er rip!
-let appInstance = server.listen(process.env.PORT || 9001, function () {
+let appInstance = server.listen(process.env.PORT || 9001,  () => {
 	console.log(`socket.io test is running on port ${appInstance.address().port}`);
 });
 
