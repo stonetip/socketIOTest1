@@ -37,6 +37,14 @@
 		<input id="singleUserMsgBtn" type="button" value="send" />
 	</fieldset>
 
+	<fieldset>
+		<div>
+			<label for="userNameText">send just from me</label>
+		</div>
+		<input id="userNameText" type="text" value="" placeholder="enter your name" />
+		<input id="userNameBtn" type="button" value="send" />
+	</fieldset>
+
 	<!-- output -->
 	<div class="notes">
 		<label for="msgCenter">messages</label>
@@ -58,7 +66,7 @@
 		/*** Set up a couple test fields/buttons for sending either universal broadcast messages or a single user message ***/
 		const universalMsgBtn = document.getElementById("universalMsgBtn");
 
-		universalMsgBtn.addEventListener("click", function () {
+		universalMsgBtn.addEventListener("click", () => {
 
 			const msg = document.getElementById("universalMsgText").value;
 
@@ -67,7 +75,7 @@
 
 		const everybodyButSenderMsgBtn = document.getElementById("everybodyButSenderMsgBtn");
 
-		everybodyButSenderMsgBtn.addEventListener("click", function () {
+		everybodyButSenderMsgBtn.addEventListener("click", () => {
 
 			const msg = document.getElementById("everybodyButSenderMsgText").value;
 
@@ -76,12 +84,23 @@
 
 		const singleUserMsgBtn = document.getElementById("singleUserMsgBtn");
 
-		singleUserMsgBtn.addEventListener("click", function () {
+		singleUserMsgBtn.addEventListener("click", () => {
 
 			const msg = document.getElementById("singleUserMsgText").value;
 
 			socket.emit("single client to server", msg);
 		});
+
+
+		const userNameBtn = document.getElementById("userNameBtn");
+
+		userNameBtn.addEventListener("click", () => {
+
+			const msg = document.getElementById("userNameText").value;
+
+			socket.emit("user name", msg);
+		});
+
 
 
 		/*** Message types that the client socket will listen for and action(s) that will ensue. ***/

@@ -65,7 +65,21 @@ io.on("connection", (socket) => {
 
 
 	// user code
-	//socket.on();
+	// one-to-one message client-to-server
+	socket.on("user name", (msg) => {
+
+		console.log(`A user called ${msg} joined`);
+
+		const timestamp = getTimeStamp();
+
+		// response back to client
+		socket.emit("reply from server", { replyFromServer: `reply from server: You joined as: ${msg}`, time: timestamp });
+
+		socket.broadcast.emit("broadcast", {
+			messageToEverybodyElse: `${msg} joined`, time: timestamp });
+
+		//socket.users.
+	});
 
 });
 
