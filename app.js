@@ -73,7 +73,7 @@ io.on("connection", (socket) => {
 		const timestamp = getTimeStamp();
 
 		// response back to client
-		socket.emit("reply from server", { replyFromServer: `reply from server: You joined as: ${msg}`, time: timestamp });
+		socket.emit("join confirmation", { joinConfirmation: `confirmation: You joined as: ${msg}`, time: timestamp });
 
 		socket.broadcast.emit("broadcast", {
 			messageToEverybodyElse: `${msg} joined`, time: timestamp });
@@ -96,7 +96,7 @@ setInterval( () => {
 
 	io.emit("broadcast", { autoBroadcastMessage: msg, time: timestamp });
 
-}, 10000);
+}, 30000);
 
 
 

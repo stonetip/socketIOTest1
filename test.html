@@ -37,9 +37,9 @@
 		<input id="singleUserMsgBtn" type="button" value="send" />
 	</fieldset>
 
-	<fieldset>
+	<fieldset id="fsUserJoin">
 		<div>
-			<label for="userNameText">send just from me</label>
+			<label for="userNameText">join the party</label>
 		</div>
 		<input id="userNameText" type="text" value="" placeholder="enter your name" />
 		<input id="userNameBtn" type="button" value="send" />
@@ -116,6 +116,19 @@
 		socket.on("reply from server", function (data) {
 
 			msgCenter.appendChild(formatOutput(data));
+
+		});
+
+		// Join confirmation
+		socket.on("join confirmation", function (data) {
+
+			msgCenter.appendChild(formatOutput(data));
+
+			const fsUserJoin = document.getElementById("fsUserJoin");
+
+			fsUserJoin.disabled = true;
+
+			fsUserJoin.style.pointerEvents = "none";
 
 		});
 
