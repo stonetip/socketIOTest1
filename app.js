@@ -27,7 +27,23 @@ let users = [];
 // Set up connection and message types
 io.on("connection", (socket) => {
 
-	console.log("a user connected");
+	console.log(`socket user ${socket.id} connected`);
+
+	if (users.some(user => user.socketID === socket.id)) {
+		console.log(`user with socket.id ${socket.id} already exists`);
+	}
+	else {
+		users.push({ socketID: socket.id, name: null });
+
+		console.dir(`users: ${JSON.stringify(users)}`);
+	}
+
+	socket.on("disconnect", () => {
+		console.log(`socket user ${socket.id} disconnected`);
+
+		// TODO: remove the user from the users array!!!
+	});
+
 
 	/*** Message types that the client socket will listen for and action(s) that will ensue. ***/
 
@@ -66,19 +82,41 @@ io.on("connection", (socket) => {
 
 	// user code
 	// one-to-one message client-to-server
-	socket.on("user name", (msg) => {
+	socket.on("user name", (friendlyName) => {
 
-		console.log(`A user called ${msg} joined`);
+		if (users.some(user => user.name === friendlyName)) {
+			return;
+		}
+		else {
+			try {
+				const userPosition = users.findIndex(user => user.socketID === socket.id);
 
-		const timestamp = getTimeStamp();
 
-		// response back to client
-		socket.emit("join confirmation", { joinConfirmation: `confirmation: You joined as: ${msg}`, time: timestamp });
+				if (userPosition > -1) {
+					console.log(`The user ${socket.id} added the name ${friendlyName}`);
 
-		socket.broadcast.emit("broadcast", {
-			messageToEverybodyElse: `${msg} joined`, time: timestamp });
+					users[userPosition].name = friendlyName;
 
-		//socket.users.
+					console.dir(`users: ${JSON.stringify(users)}`);
+
+					const timestamp = getTimeStamp();
+
+					// response back to client
+					socket.emit("join confirmation", { joinConfirmation: `confirmation: You joined as: ${friendlyName}`, time: timestamp });
+
+					socket.broadcast.emit("broadcast", {
+						messageToEverybodyElse: `${friendlyName} joined`, time: timestamp
+					});
+				}
+			}
+			catch(err) {
+				console.error(err);
+			}
+
+		}
+
+
+
 	});
 
 });
@@ -86,7 +124,7 @@ io.on("connection", (socket) => {
 
 
 // Demonstrating sending a ping or daemon-style message on a regular basis
-setInterval( () => {
+setInterval(() => {
 
 	const msg = "interval message";
 
@@ -101,7 +139,7 @@ setInterval( () => {
 
 
 // Let 'er rip!
-let appInstance = server.listen(process.env.PORT || 9001,  () => {
+let appInstance = server.listen(process.env.PORT || 9001, () => {
 	console.log(`socket.io test is running on port ${appInstance.address().port}`);
 });
 

@@ -56,7 +56,19 @@
 
 		var msgCenter = document.getElementById("msgCenter");
 
+		//Initializes socket.io
 		var socket = io();
+
+		
+
+		socket.on('connect', () => {
+			console.log(`my socket user id is: ${socket.id}`);
+		});
+
+		socket.on('disconnect', (reason) => {
+			console.log(`Disconnected: ${reason}`);
+		})
+
 
 		// This sends a one-to-server message. Strictly speaking, the server knows when a client has connected.
 		// This is just a demonstration of socket.emit
